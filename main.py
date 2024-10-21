@@ -130,6 +130,7 @@ def get_db():
     finally:
         db.close()
 
+# This class definition is a SQLAlchemy model that represents a database table named 'places'
 class DBPlace(Base):
     __tablename__ = 'places' #specifies the name of the table.
 
@@ -145,15 +146,19 @@ class DBPlace(Base):
 Base.metadata.create_all(bind=engine) #Creates all tables in the database that are defined by the SQLAlchemy models (eg.DBPlace) and are not already present in the database.
 
 # Methods for interacting with the database
+# Get place by ID from SQLAlchemy
 def get_place(db: Session, place_id: int):
     return db.query(DBPlace).where(DBPlace.id == place_id).first()
 
+# Get place by name from SQLAlchemy
 def get_place_name(db: Session, name: str):
     return db.query(DBPlace).where(DBPlace.name == name).first()
 
+# Get all places from SQLAlchemy
 def get_places(db: Session):
     return db.query(DBPlace).all()
 
+# Create/Add new place, add, commit and refresh into DBPlace database
 def create_place(db: Session, place: Place):
     db_place = DBPlace(**place.dict())
     db.add(db_place)

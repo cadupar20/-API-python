@@ -42,6 +42,7 @@ Dentro de la documentación de este main.py, se puede probar los siguientes endp
 | http://127.0.0.1:8000/api/v1/delete | PUT | NO |
 | http://127.0.0.1:8000/api/v2/items/ | POST | SI |
 | http://127.0.0.1:8000/api/v3/items/10 | POST | SI |
+| http://127.0.0.1:8000/api/v1/places-basic-example/ | POST | SI |
 
 con los metodos GET, POST, PUT y DELETE que se han desarrollado como ejemplo dentro del este archivo main.py (ejemplo: Este endopoint utiliza el metodo PUT --> @app.put("/api/v1/delete"))
 
@@ -74,6 +75,20 @@ Body Raw JSON Example:
 }
 
 ![Postman image2](https://i.imgur.com/QRvfxlO.jpeg)
+
+### Otro ejemplo para valdar con Postman:
+http://127.0.0.1:8000/api/v1/places-basic-example/
+
+Body Raw JSON Example:
+
+{ "name": "Café de la Piscine",   
+  "description": "Café de la Piscine",   
+  "coffee": true,   
+  "wifi": true,   
+  "food": true,   
+  "lat": 48.8566,   
+  "lng": 2.3522 
+}
 
 
 ### REFERENCE: 

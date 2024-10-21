@@ -43,6 +43,10 @@ Dentro de la documentación de este main.py, se puede probar los siguientes endp
 | http://127.0.0.1:8000/api/v2/items/ | POST | SI |
 | http://127.0.0.1:8000/api/v3/items/10 | POST | SI |
 | http://127.0.0.1:8000/api/v1/places-basic-example/ | POST | SI |
+| http://127.0.0.1:8000/places/ | POST | SI |
+| [http://127.0.0.1:8000/places/](http://127.0.0.1:8000/places/)| GET | NO |
+| http://127.0.0.1:8000/places/1 | GET | NO |
+| http://127.0.0.1:8000/api/v1/place/PAE04 | GET | NO |
 
 con los metodos GET, POST, PUT y DELETE que se han desarrollado como ejemplo dentro del este archivo main.py (ejemplo: Este endopoint utiliza el metodo PUT --> @app.put("/api/v1/delete"))
 
@@ -76,7 +80,7 @@ Body Raw JSON Example:
 
 ![Postman image2](https://i.imgur.com/QRvfxlO.jpeg)
 
-### Otro ejemplo para valdar con Postman:
+### Otro ejemplo para valdar con Postman: (POST)
 http://127.0.0.1:8000/api/v1/places-basic-example/
 
 Body Raw JSON Example:
@@ -89,6 +93,32 @@ Body Raw JSON Example:
   "lat": 48.8566,   
   "lng": 2.3522 
 }
+
+## Update - Se agregan 4 endpoints para el uso de SQLAlchemy (db.sqlite3) como almacenamiento local estatico de datos.
+|http://127.0.0.1:8000/places/ | POST
+
+|http://127.0.0.1:8000/places/ | GET
+
+|http://127.0.0.1:8000/places/1 | GET
+
+|http://127.0.0.1:8000/api/v1/place/PAE04 | GET
+
+### Otro ejemplo mas usando SQLAlchemy, ingresando datos desde Postman: (POST)
+http://127.0.0.1:8000/places/
+
+Body Raw JSON Example:
+
+{
+  "name": "PAE04",
+  "description": "Cocina Piso 4to",
+  "coffee": true,
+  "wifi": true,
+  "food": true,
+  "lat": 1120.07,
+  "lng": 2359.1
+}
+
+Ingresa los datos a una Base de datos local con SQLAlchemy (db.sqlite3)
 
 
 ### REFERENCE: 

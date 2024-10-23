@@ -12,7 +12,11 @@ from sqlalchemy import Boolean, Column, Float, String, Integer
 
 
 # Se puede ver la documentación en http://127.0.0.1:8000/docs de FastAPI de manera sencilla
-app = FastAPI()
+app = FastAPI(
+    title="Places Details",
+    description="You can perform CRUD operation by using this API",
+    version="1.0.0"
+)
 
 # Healthchecker URL
 @app.get("/api/healthchecker")
@@ -181,6 +185,14 @@ def create_place(db: Session, place: Place):
 
     return db_place
 
+#Delete an existing place from SQLAlchemy
+def delete_place(db: Session, place_id: int):
+    affected_rows = db.query(DBPlace).filter(DBPlace.id == place_id).delete(synchronize_session=False)
+    db.commit()
+    
+    return {"message": f"Place with id {place_id} deleted, {affected_rows} row affected"}
+
+
 # Routes for interacting with the API
 # Create/Add new place, insert into the database this place 
 ''' Body:  {
@@ -197,6 +209,8 @@ def create_place(db: Session, place: Place):
 def create_places_view(place: Place, db: Session = Depends(get_db)):
     db_place = create_place(db, place)
     return db_place
+
+
 # Get All places, return all the places in the database
 # URL http://127.0.0.1:8000/places/  (Metodo: GET) (Body: None)
 @app.get('/places/', response_model=List[Place])
@@ -214,3 +228,10 @@ def get_place_view(place_id: int, db: Session = Depends(get_db)):
 @app.get('/api/v1/place/{name}')
 def get_place_view(name: str, db: Session = Depends(get_db)):
     return get_place_name(db, name)
+
+#Delete one place by ID
+# URL http://127.0.0.1:8000/places/1  (Metodo: DELETE) (Body: None)
+@app.delete('/place/{place_id}')
+async def delete_place_view(place_id: int, db: Session = Depends(get_db)):
+    delete_place(db, place_id)
+    return {"message": f"Place with id {place_id} deleted"}

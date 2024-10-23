@@ -14,6 +14,12 @@ from sqlalchemy import Boolean, Column, Float, String, Integer
 # Se puede ver la documentación en http://127.0.0.1:8000/docs de FastAPI de manera sencilla
 app = FastAPI()
 
+# Healthchecker URL
+@app.get("/api/healthchecker")
+async def root():
+    return {"message": "Welcome to FastAPI with SQLAlchemy"}
+
+
 # Funcion GET, devuelve el texto "Hello World"
 # http://127.0.0.1:8000/api/v1/hello (el dato es devuelto en formato JSON)
 @app.get("/api/v1/hello")
@@ -118,11 +124,17 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 SQLALCHEMY_DATABASE_URL = 'sqlite+pysqlite:///' + os.path.join(basedir, 'db.sqlite3')
 #SQLALCHEMY_DATABASE_URL = 'sqlite+pysqlite:///./db.sqlite3:'
+
+# Creamos el motor, el cual al comienzo de la ruta de la DB
+# Se especifica que es sqlite
 engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=True, future=True)
+
+# Luego creamos los parametros para las sessiones que se creen de dicho motor
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# Creamos el mapeador ORM 
 Base = declarative_base()
 
-# Dependency
+ # Creamos la función para el uso de session de la DB
 def get_db():
     db = SessionLocal()
     try:
@@ -132,8 +144,9 @@ def get_db():
 
 # This class definition is a SQLAlchemy model that represents a database table named 'places'
 class DBPlace(Base):
+    # nombre de la tabla
     __tablename__ = 'places' #specifies the name of the table.
-
+    # Las columnas de nuestra tabla y el tipo de dato de cada una
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(50))
     description = Column(String, nullable=True)
@@ -143,6 +156,7 @@ class DBPlace(Base):
     lat = Column(Float)
     lng = Column(Float)
 
+# El motor mapea y crea el modelo en la DB
 Base.metadata.create_all(bind=engine) #Creates all tables in the database that are defined by the SQLAlchemy models (eg.DBPlace) and are not already present in the database.
 
 # Methods for interacting with the database
